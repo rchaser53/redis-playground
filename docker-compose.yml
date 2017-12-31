@@ -1,15 +1,14 @@
-version: '2'
+version: "3"
 services:
   web:
-    image: golang
+    build: .
     ports:
       - "5000:5000"
     volumes:
-      - .:/Users/rchaser53/go/src/redis-playground
-      - logvolume01:/var/log
-    links:
+      - .://Users/rchaser53/Desktop/redis-playground
+    depends_on:
       - redis
   redis:
     image: redis
-volumes:
-  logvolume01: {}
+    ports:
+      - "6379:6379"
