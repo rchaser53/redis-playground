@@ -1,0 +1,15 @@
+version: '2'
+services:
+  web:
+    image: golang
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/Users/rchaser53/go/src/redis-playground
+      - logvolume01:/var/log
+    links:
+      - redis
+  redis:
+    image: redis
+volumes:
+  logvolume01: {}
