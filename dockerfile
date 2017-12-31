@@ -13,4 +13,6 @@ RUN apt-get update -qq \
                            wget \
                            zlib1g-dev
 
-RUN mkdir src
+RUN go get -u github.com/go-redis/redis
+
+WORKDIR "/go/src"
