@@ -1,15 +1,22 @@
 version: "3"
 services:
   web:
-    build: .
-    ports:
-      - "5000:5000"
+    image: redisplayground_web
     tty: true
     volumes:
-      - .://Users/rchaser53/Desktop/redis-playground
+      - /Users/rchaser53/Desktop/redis-playground:/go/src
+    ports:
+     - "5000:5000"
     depends_on:
       - redis
+    networks:
+      - back-tier
+
   redis:
     image: redis
-    ports:
-      - "6379:6379"
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    driver: bridge

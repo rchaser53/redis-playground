@@ -13,7 +13,7 @@ func main() {
 
 func createRedisClient() *redis.Client {
 	client := redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
+		Addr:     "redis:6379",
 		Password: "",
 		DB:       0,
 	})
@@ -22,7 +22,7 @@ func createRedisClient() *redis.Client {
 }
 
 func ExampleClient(client *redis.Client) {
-	err := client.Set("key2", "nyan", 0).Err()
+	err := client.Set("key", "nyan", 0).Err()
 	if err != nil {
 		panic(err)
 	}
