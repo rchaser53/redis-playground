@@ -4,6 +4,7 @@ services:
     build: .
     ports:
       - "5000:5000"
+    tty: true
     volumes:
       - .://Users/rchaser53/Desktop/redis-playground
     depends_on:
