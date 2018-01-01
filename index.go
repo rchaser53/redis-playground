@@ -21,6 +21,7 @@ func createRedisClient() *redis.Client {
 	return client
 }
 
+// ExampleClient is nya-n
 func ExampleClient(client *redis.Client) {
 	err := client.Set("key", "nyan", 0).Err()
 	if err != nil {
