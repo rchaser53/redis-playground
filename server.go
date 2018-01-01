@@ -9,14 +9,12 @@ import (
 	"time"
 )
 
-type Name struct {
-	First, Last string
+type Head struct {
+	Div, Script string
 }
 
-type Person struct {
-	Name   Name
-	Gender string
-	Age    int
+type Html struct {
+	Head Head
 }
 
 var myClient = &http.Client{Timeout: 10 * time.Second}
@@ -36,18 +34,16 @@ func main() {
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
-	data := new(Person)
+	data := new(Html)
 
 	// bytes, err := ioutil.ReadAll(resp.Body)
 	// if err != nil {
 	// 	log.Fatal(err)
 	// }
 	bytes := []byte(`
-		<Person>
-    <Name><First>John</First><Last>Doe</Last></Name>
-    <Gender>Male</Gender>
-    <Age>20</Age>
-  </Person>`)
+		<Html>
+			<Head><Script>const</Script><Div>abc</Div></Head>
+  	</Html>`)
 
 	if err := xml.Unmarshal(bytes, &data); err != nil {
 		log.Fatal(err)
