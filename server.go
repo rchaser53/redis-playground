@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"time"
+
+	"golang.org/x/net/html"
 )
 
 type Head struct {
@@ -30,16 +32,31 @@ func getJson(url string, target interface{}) error {
 }
 
 func main() {
-	// resp, err := http.Get("https://github.com/rchaser53/")
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	data := new(Html)
+	resp, err := http.Get("https://github.com/rchaser53/")
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	// bytes, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+	tokens := html.NewTokenizer(resp.Body)
+	for {
+		if tokens.Next() == html.ErrorToken {
+			log.Fatal(tokens.Err())
+		}
+		println(tokens.Token().Data)
+	}
+
+	defer resp.Body.Close()
+}
+
+// println(string(b))
+
+// if b, err := ioutil.ReadAll(resp.Body); err == nil {
+// 	return string(b)
+// }
+
+// tryUsingXmlUnmarshal is kinda training
+func tryUsingXmlUnmarshal() {
+	data := new(Html)
 	bytes := []byte(`
 		<Html>
 			<Head><Script>const</Script><Div>abc</Div></Head>
@@ -48,16 +65,5 @@ func main() {
 	if err := xml.Unmarshal(bytes, &data); err != nil {
 		log.Fatal(err)
 	}
-
 	fmt.Println(data)
-
-	// println(data.html)
-
-	// defer resp.Body.Close()
 }
-
-// println(string(b))
-
-// if b, err := ioutil.ReadAll(resp.Body); err == nil {
-// 	return string(b)
-// }
