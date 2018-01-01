@@ -1,4 +1,4 @@
-package main
+// package main
 
 import (
 	"fmt"
@@ -6,10 +6,10 @@ import (
 	"github.com/go-redis/redis"
 )
 
-func main() {
-	client := createRedisClient()
-	ExampleClient(client)
-}
+// func main() {
+// 	client := createRedisClient()
+// 	ExampleClient(client)
+// }
 
 func createRedisClient() *redis.Client {
 	client := redis.NewClient(&redis.Options{
