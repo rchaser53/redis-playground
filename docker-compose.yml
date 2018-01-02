@@ -12,6 +12,10 @@ services:
       - redis
     networks:
       - back-tier
+    environment:
+      - "CLkey=${CL}"
+      - "BFkey=${BF}"
+      - "BFSecret=${BFSecret}"
 
   redis:
     container_name: redis
