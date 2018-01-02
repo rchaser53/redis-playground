@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -15,12 +16,12 @@ import (
 var myClient = &http.Client{Timeout: 10 * time.Second}
 
 type CL struct {
-	Quotes Quotes
-	Source string
+	Quotes Quotes `json:"quotes"`
+	Source string `json:"source"`
 }
 
 type Quotes struct {
-	USDJPY float64
+	USDJPY float64 `json:"usdJpy"`
 }
 
 func getJson(url string, target interface{}) error {
@@ -34,7 +35,7 @@ func getJson(url string, target interface{}) error {
 }
 
 // tryToUseGetJson is suburi
-func tryToUseGetJson() {
+func tryToUseGetJson() Quotes {
 	url := "http://apilayer.net/api/live?access_key=" + os.Getenv("CLkey")
 	var cl CL
 	err := getJson(url, &cl)
@@ -43,10 +44,11 @@ func tryToUseGetJson() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("%f", cl.Quotes.USDJPY)
+	return cl.Quotes
 }
 
-func main() {
+// tryToUseJason is suburi
+func tryToUseJason() string {
 	url := "http://apilayer.net/api/live?access_key=" + os.Getenv("CLkey")
 
 	resp, err := myClient.Get(url)
@@ -64,9 +66,19 @@ func main() {
 
 	a, err := v.GetObject("quotes")
 	j, err := json.Marshal(a)
-	println(string(j))
+	return string(j)
 }
 
-// if b, err := ioutil.ReadAll(resp.Body); err == nil {
-// 	return string(b)
-// }
+func handler(w http.ResponseWriter, r *http.Request) {
+	// respStr := tryToUseJason()
+	respBuffer, err := json.Marshal(tryToUseGetJson())
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Fprintf(w, string(respBuffer), html.EscapeString(r.URL.Path))
+}
+
+func main() {
+	http.HandleFunc("/", handler) // ハンドラを登録してウェブページを表示させる
+	http.ListenAndServe(":5000", nil)
+}
