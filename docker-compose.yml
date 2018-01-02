@@ -1,6 +1,7 @@
 version: "3"
 services:
   web:
+    container_name: go
     image: redisplayground_web
     tty: true
     volumes:
@@ -13,6 +14,7 @@ services:
       - back-tier
 
   redis:
+    container_name: redis
     image: redis
     networks:
       - back-tier
