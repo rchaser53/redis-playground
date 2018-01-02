@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"html"
+	"html/template"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -78,7 +79,23 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, string(respBuffer), html.EscapeString(r.URL.Path))
 }
 
+type Page struct{}
+
+func viewHandler(w http.ResponseWriter, r *http.Request) {
+	tmpl, err := template.ParseFiles("index.html")
+	if err != nil {
+		panic(err)
+	}
+
+	err = tmpl.Execute(w, Page{})
+	if err != nil {
+		panic(err)
+	}
+}
+
 func main() {
-	http.HandleFunc("/", handler) // ハンドラを登録してウェブページを表示させる
+	http.HandleFunc("/cl/test", handler)
+	http.HandleFunc("/index", viewHandler)
+
 	http.ListenAndServe(":5000", nil)
 }

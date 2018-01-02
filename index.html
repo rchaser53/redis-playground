@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      console.log(223)
+      fetch('http://localhost:5000/cl/test')
+        .then(ret => ret.text())
+        .then(ret => console.log(ret))
+        .catch((err) => console.error(err))
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
