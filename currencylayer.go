@@ -1,5 +1,3 @@
-package main
-
 import (
 	"encoding/json"
 	"fmt"
@@ -71,13 +69,11 @@ func tryToUseJason() string {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	// respStr := tryToUseJason()
 	respBuffer, err := json.Marshal(tryToUseGetJson())
 	if err != nil {
 		log.Fatal(err)
 	}
 	io.WriteString(w, fmt.Sprintf("%s", string(respBuffer)))
-	// fmt.Fprintf(w, fmt.Sprintf("%s", string(respBuffer)), html.EscapeString(r.URL.Path))
 }
 
 type Page struct{}
@@ -94,10 +90,7 @@ func viewHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
-	// floatBytes := []byte(123.1234)
-	// aa := fmt.Sprintf("%f", floatBytes)
-	// println(aa)
+func buildserver() {
 	http.HandleFunc("/cl/test", handler)
 	http.HandleFunc("/index", viewHandler)
 
