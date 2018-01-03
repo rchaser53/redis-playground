@@ -12,4 +12,19 @@ func (n Nyan) hoge() {
 func main() {
 	nyan := &Nyan{1}
 	nyan.hoge()
+
+	// it's a cast in go
+	// cannot using xi out of ok func
+	if xi, ok := tetetete().(int); ok {
+		println(xi)
+	}
+
+	println(tetetete().(int))
+}
+
+type a interface{}
+
+func tetetete() a {
+	// func tetetete() int8 {
+	return 2
 }
