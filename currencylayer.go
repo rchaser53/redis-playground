@@ -1,3 +1,5 @@
+package redisPlayground
+
 import (
 	"encoding/json"
 	"fmt"

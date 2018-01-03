@@ -1,3 +1,5 @@
+package redisPlayground
+
 // tryUsingXmlUnmarshal is kinda training
 import (
 	"encoding/xml"

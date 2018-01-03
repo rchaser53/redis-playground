@@ -1,7 +1,6 @@
-package main
+package redisPlayground
 
 import (
-	"bytes"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
@@ -14,39 +13,12 @@ import (
 )
 
 type HttpClient interface {
-	Get(string) (*http.Response, error)
 	Do(req *http.Request) (*http.Response, error)
 }
 
-type MockHttpClient struct{}
-
-func (m *MockHttpClient) Do(url string) (*http.Response, error) {
-	response := &http.Response{
-		Body: ioutil.NopCloser(bytes.NewBuffer([]byte("Test Response"))),
-	}
-
-	return response, nil
-}
-
-// func TestSendWithValidResponse(t *testing.T) {
-// 	httpClient := &MockHttpClient{}
-// 	err := send(httpClient, "IT_JUST_WORKS!")
-
-// 	if err != nil {
-// 		t.Errorf("Shouldn't have received an error with a valid MockHttpClient, got %s", err)
-// 	}
-// }
-
 var host = "https://api.bitflyer.jp"
 
-func main() {
-	req := createReqObject(host)
-	client := &http.Client{}
-
-	send(client, req)
-}
-
-func createReqObject(uri string) *http.Request {
+func CreateReqObject(uri string) *http.Request {
 	key := os.Getenv("BFkey")
 	secret := os.Getenv("BFSecret")
 	method := "GET"
@@ -72,7 +44,7 @@ func createReqObject(uri string) *http.Request {
 	return req
 }
 
-func send(client HttpClient, req *http.Request) error {
+func Send(client HttpClient, req *http.Request) error {
 	resp, _ := client.Do(req)
 	defer resp.Body.Close()
 
@@ -80,6 +52,13 @@ func send(client HttpClient, req *http.Request) error {
 	fmt.Println(string(byteArray))
 	return err
 }
+
+// func main() {
+// 	req := createReqObject(host)
+// 	client := &http.Client{}
+
+// 	send(client, req)
+// }
 
 // resp, _ := client.Do(req)
 // defer resp.Body.Close()
