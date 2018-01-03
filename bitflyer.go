@@ -20,7 +20,7 @@ type HttpClient interface {
 
 type MockHttpClient struct{}
 
-func (m *MockHttpClient) Get(url string) (*http.Response, error) {
+func (m *MockHttpClient) Do(url string) (*http.Response, error) {
 	response := &http.Response{
 		Body: ioutil.NopCloser(bytes.NewBuffer([]byte("Test Response"))),
 	}
@@ -37,12 +37,19 @@ func (m *MockHttpClient) Get(url string) (*http.Response, error) {
 // 	}
 // }
 
+var host = "https://api.bitflyer.jp"
+
 func main() {
+	req := createReqObject(host)
+	client := &http.Client{}
+
+	send(client, req)
+}
+
+func createReqObject(uri string) *http.Request {
 	key := os.Getenv("BFkey")
 	secret := os.Getenv("BFSecret")
 	method := "GET"
-
-	uri := "https://api.bitflyer.jp"
 	path := "/v1/me/getbalance"
 
 	ts := strconv.FormatInt(time.Now().Unix(), 10)
@@ -62,14 +69,7 @@ func main() {
 	req.Header.Set("ACCESS-TIMESTAMP", ts)
 	req.Header.Set("ACCESS-SIGN", sign)
 
-	client := &http.Client{}
-
-	send(client, req)
-	// resp, _ := client.Do(req)
-	// defer resp.Body.Close()
-
-	// byteArray, _ := ioutil.ReadAll(resp.Body)
-	// fmt.Println(string(byteArray))
+	return req
 }
 
 func send(client HttpClient, req *http.Request) error {
@@ -80,3 +80,9 @@ func send(client HttpClient, req *http.Request) error {
 	fmt.Println(string(byteArray))
 	return err
 }
+
+// resp, _ := client.Do(req)
+// defer resp.Body.Close()
+
+// byteArray, _ := ioutil.ReadAll(resp.Body)
+// fmt.Println(string(byteArray))
