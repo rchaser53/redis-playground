@@ -1,5 +1,9 @@
 package main
 
+import (
+	abc "redisPlayground/PackageA"
+)
+
 type Nyan struct {
 	myan int16
 }
@@ -20,6 +24,9 @@ func main() {
 	}
 
 	println(tetetete().(int))
+
+	client := abc.CreateRedisClient()
+	abc.ExampleClient(client)
 }
 
 type a interface{}

@@ -11,7 +11,7 @@ import (
 // 	ExampleClient(client)
 // }
 
-func createRedisClient() *redis.Client {
+func CreateRedisClient() *redis.Client {
 	client := redis.NewClient(&redis.Options{
 		Addr:     "redis:6379",
 		Password: "",
