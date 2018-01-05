@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	template "html/template"
 	"net/http"
 	packageA "redisPlayground/PackageA"
@@ -11,9 +12,22 @@ var globalSessions *packageA.Manager
 
 func main() {
 	// packageA.CreateSession(globalSessions)
-	http.HandleFunc("/index", login)
+	// http.HandleFunc("/index", login)
+	// http.HandleFunc("/nyan", responseNyan)
+	// http.ListenAndServe(":5000", nil)
+	messages := make(chan int)
 
-	http.ListenAndServe(":5000", nil)
+	go f(messages)
+	msg := <-messages
+	fmt.Println(msg)
+}
+
+func responseNyan(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Nyan")
+}
+
+func f(messages chan int) {
+	messages <- 1
 }
 
 type Page struct{}
