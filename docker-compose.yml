@@ -7,6 +7,7 @@ services:
     working_dir: /go/src/redisPlayground
     volumes:
       - /Users/rchaser53/Desktop/redisPlayground:/go/src/redisPlayground
+      - /Users/rchaser53/go/src/github.com:/go/src/github.com
     ports:
      - "5000:5000"
     depends_on:
