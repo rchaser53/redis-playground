@@ -4,7 +4,7 @@ services:
     container_name: go
     image: redisplayground_web
     tty: true
-    working_dir: /go/src/
+    working_dir: /go/src/redisPlayground
     volumes:
       - /Users/rchaser53/Desktop/redisPlayground:/go/src/redisPlayground
     ports:
