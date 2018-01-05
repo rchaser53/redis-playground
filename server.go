@@ -15,7 +15,7 @@ func main() {
 	// http.HandleFunc("/index", login)
 	// http.HandleFunc("/nyan", responseNyan)
 	// http.ListenAndServe(":5000", nil)
-	messages := make(chan int)
+	messages := make(chan []int)
 
 	go f(messages)
 	msg := <-messages
@@ -26,8 +26,10 @@ func responseNyan(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Nyan")
 }
 
-func f(messages chan int) {
-	messages <- 1
+func f(messages chan []int) {
+	hoge := []int{1, 2, 3}
+	hoge = append(hoge, 4)
+	messages <- hoge
 }
 
 type Page struct{}
